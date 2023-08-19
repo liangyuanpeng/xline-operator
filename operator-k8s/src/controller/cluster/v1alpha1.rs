@@ -483,7 +483,7 @@ impl Controller<Cluster> for ClusterController {
             ))
             .await?;
         }
-        tracing::log::info!("successful:");
+        tracing::log::info!("sync successful: namespace:{},name:{}",namespace,name);
         Ok(())
     }
 
