@@ -7,7 +7,7 @@ use k8s_openapi::apiextensions_apiserver::pkg::apis::apiextensions::v1::CustomRe
 use kube::api::{ListParams, Patch, PatchParams, PostParams};
 use kube::runtime::wait::{await_condition, conditions};
 use kube::{Api, Client, CustomResourceExt, Resource};
-use tracing::debug;
+use tracing::{debug, info};
 use utils::migration::ApiVersion;
 
 use crate::config::{Config, Namespace};
@@ -53,6 +53,7 @@ impl Operator {
             cluster_suffix: self.config.cluster_suffix.clone(),
         }));
         ClusterController::run(ctx, cluster_api).await;
+        info!("Started ClusterController");
         Ok(())
     }
 

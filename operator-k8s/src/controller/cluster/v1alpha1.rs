@@ -483,6 +483,7 @@ impl Controller<Cluster> for ClusterController {
             ))
             .await?;
         }
+        tracing::log::info!("successful:");
         Ok(())
     }
 
