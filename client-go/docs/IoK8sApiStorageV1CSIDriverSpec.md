@@ -1,0 +1,238 @@
+# IoK8sApiStorageV1CSIDriverSpec
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**AttachRequired** | Pointer to **bool** | attachRequired indicates this CSI volume driver requires an attach operation (because it implements the CSI ControllerPublishVolume() method), and that the Kubernetes attach detach controller should call the attach volume interface which checks the volumeattachment status and waits until the volume is attached before proceeding to mounting. The CSI external-attacher coordinates with CSI volume driver and updates the volumeattachment status when the attach operation is complete. If the CSIDriverRegistry feature gate is enabled and the value is specified to false, the attach operation will be skipped. Otherwise the attach operation will be called.  This field is immutable. | [optional] 
+**FsGroupPolicy** | Pointer to **string** | fsGroupPolicy defines if the underlying volume supports changing ownership and permission of the volume before being mounted. Refer to the specific FSGroupPolicy values for additional details.  This field is immutable.  Defaults to ReadWriteOnceWithFSType, which will examine each volume to determine if Kubernetes should modify ownership and permissions of the volume. With the default policy the defined fsGroup will only be applied if a fstype is defined and the volume&#39;s access mode contains ReadWriteOnce. | [optional] 
+**PodInfoOnMount** | Pointer to **bool** | podInfoOnMount indicates this CSI volume driver requires additional pod information (like podName, podUID, etc.) during mount operations, if set to true. If set to false, pod information will not be passed on mount. Default is false.  The CSI driver specifies podInfoOnMount as part of driver deployment. If true, Kubelet will pass pod information as VolumeContext in the CSI NodePublishVolume() calls. The CSI driver is responsible for parsing and validating the information passed in as VolumeContext.  The following VolumeConext will be passed if podInfoOnMount is set to true. This list might grow, but the prefix will be used. \&quot;csi.storage.k8s.io/pod.name\&quot;: pod.Name \&quot;csi.storage.k8s.io/pod.namespace\&quot;: pod.Namespace \&quot;csi.storage.k8s.io/pod.uid\&quot;: string(pod.UID) \&quot;csi.storage.k8s.io/ephemeral\&quot;: \&quot;true\&quot; if the volume is an ephemeral inline volume                                 defined by a CSIVolumeSource, otherwise \&quot;false\&quot;  \&quot;csi.storage.k8s.io/ephemeral\&quot; is a new feature in Kubernetes 1.16. It is only required for drivers which support both the \&quot;Persistent\&quot; and \&quot;Ephemeral\&quot; VolumeLifecycleMode. Other drivers can leave pod info disabled and/or ignore this field. As Kubernetes 1.15 doesn&#39;t support this field, drivers can only support one mode when deployed on such a cluster and the deployment determines which mode that is, for example via a command line parameter of the driver.  This field is immutable. | [optional] 
+**RequiresRepublish** | Pointer to **bool** | requiresRepublish indicates the CSI driver wants &#x60;NodePublishVolume&#x60; being periodically called to reflect any possible change in the mounted volume. This field defaults to false.  Note: After a successful initial NodePublishVolume call, subsequent calls to NodePublishVolume should only update the contents of the volume. New mount points will not be seen by a running container. | [optional] 
+**SeLinuxMount** | Pointer to **bool** | seLinuxMount specifies if the CSI driver supports \&quot;-o context\&quot; mount option.  When \&quot;true\&quot;, the CSI driver must ensure that all volumes provided by this CSI driver can be mounted separately with different &#x60;-o context&#x60; options. This is typical for storage backends that provide volumes as filesystems on block devices or as independent shared volumes. Kubernetes will call NodeStage / NodePublish with \&quot;-o context&#x3D;xyz\&quot; mount option when mounting a ReadWriteOncePod volume used in Pod that has explicitly set SELinux context. In the future, it may be expanded to other volume AccessModes. In any case, Kubernetes will ensure that the volume is mounted only with a single SELinux context.  When \&quot;false\&quot;, Kubernetes won&#39;t pass any special SELinux mount options to the driver. This is typical for volumes that represent subdirectories of a bigger shared filesystem.  Default is \&quot;false\&quot;. | [optional] 
+**StorageCapacity** | Pointer to **bool** | storageCapacity indicates that the CSI volume driver wants pod scheduling to consider the storage capacity that the driver deployment will report by creating CSIStorageCapacity objects with capacity information, if set to true.  The check can be enabled immediately when deploying a driver. In that case, provisioning new volumes with late binding will pause until the driver deployment has published some suitable CSIStorageCapacity object.  Alternatively, the driver can be deployed with the field unset or false and it can be flipped later when storage capacity information has been published.  This field was immutable in Kubernetes &lt;&#x3D; 1.22 and now is mutable. | [optional] 
+**TokenRequests** | Pointer to [**[]IoK8sApiStorageV1TokenRequest**](IoK8sApiStorageV1TokenRequest.md) | tokenRequests indicates the CSI driver needs pods&#39; service account tokens it is mounting volume for to do necessary authentication. Kubelet will pass the tokens in VolumeContext in the CSI NodePublishVolume calls. The CSI driver should parse and validate the following VolumeContext: \&quot;csi.storage.k8s.io/serviceAccount.tokens\&quot;: {   \&quot;&lt;audience&gt;\&quot;: {     \&quot;token\&quot;: &lt;token&gt;,     \&quot;expirationTimestamp\&quot;: &lt;expiration timestamp in RFC3339&gt;,   },   ... }  Note: Audience in each TokenRequest should be different and at most one token is empty string. To receive a new token after expiry, RequiresRepublish can be used to trigger NodePublishVolume periodically. | [optional] 
+**VolumeLifecycleModes** | Pointer to **[]string** | volumeLifecycleModes defines what kind of volumes this CSI volume driver supports. The default if the list is empty is \&quot;Persistent\&quot;, which is the usage defined by the CSI specification and implemented in Kubernetes via the usual PV/PVC mechanism.  The other mode is \&quot;Ephemeral\&quot;. In this mode, volumes are defined inline inside the pod spec with CSIVolumeSource and their lifecycle is tied to the lifecycle of that pod. A driver has to be aware of this because it is only going to get a NodePublishVolume call for such a volume.  For more information about implementing this mode, see https://kubernetes-csi.github.io/docs/ephemeral-local-volumes.html A driver can support one or more of these modes and more modes may be added in the future.  This field is beta. This field is immutable. | [optional] 
+
+## Methods
+
+### NewIoK8sApiStorageV1CSIDriverSpec
+
+`func NewIoK8sApiStorageV1CSIDriverSpec() *IoK8sApiStorageV1CSIDriverSpec`
+
+NewIoK8sApiStorageV1CSIDriverSpec instantiates a new IoK8sApiStorageV1CSIDriverSpec object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewIoK8sApiStorageV1CSIDriverSpecWithDefaults
+
+`func NewIoK8sApiStorageV1CSIDriverSpecWithDefaults() *IoK8sApiStorageV1CSIDriverSpec`
+
+NewIoK8sApiStorageV1CSIDriverSpecWithDefaults instantiates a new IoK8sApiStorageV1CSIDriverSpec object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+### GetAttachRequired
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetAttachRequired() bool`
+
+GetAttachRequired returns the AttachRequired field if non-nil, zero value otherwise.
+
+### GetAttachRequiredOk
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetAttachRequiredOk() (*bool, bool)`
+
+GetAttachRequiredOk returns a tuple with the AttachRequired field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAttachRequired
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) SetAttachRequired(v bool)`
+
+SetAttachRequired sets AttachRequired field to given value.
+
+### HasAttachRequired
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) HasAttachRequired() bool`
+
+HasAttachRequired returns a boolean if a field has been set.
+
+### GetFsGroupPolicy
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetFsGroupPolicy() string`
+
+GetFsGroupPolicy returns the FsGroupPolicy field if non-nil, zero value otherwise.
+
+### GetFsGroupPolicyOk
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetFsGroupPolicyOk() (*string, bool)`
+
+GetFsGroupPolicyOk returns a tuple with the FsGroupPolicy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFsGroupPolicy
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) SetFsGroupPolicy(v string)`
+
+SetFsGroupPolicy sets FsGroupPolicy field to given value.
+
+### HasFsGroupPolicy
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) HasFsGroupPolicy() bool`
+
+HasFsGroupPolicy returns a boolean if a field has been set.
+
+### GetPodInfoOnMount
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetPodInfoOnMount() bool`
+
+GetPodInfoOnMount returns the PodInfoOnMount field if non-nil, zero value otherwise.
+
+### GetPodInfoOnMountOk
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetPodInfoOnMountOk() (*bool, bool)`
+
+GetPodInfoOnMountOk returns a tuple with the PodInfoOnMount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPodInfoOnMount
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) SetPodInfoOnMount(v bool)`
+
+SetPodInfoOnMount sets PodInfoOnMount field to given value.
+
+### HasPodInfoOnMount
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) HasPodInfoOnMount() bool`
+
+HasPodInfoOnMount returns a boolean if a field has been set.
+
+### GetRequiresRepublish
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetRequiresRepublish() bool`
+
+GetRequiresRepublish returns the RequiresRepublish field if non-nil, zero value otherwise.
+
+### GetRequiresRepublishOk
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetRequiresRepublishOk() (*bool, bool)`
+
+GetRequiresRepublishOk returns a tuple with the RequiresRepublish field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRequiresRepublish
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) SetRequiresRepublish(v bool)`
+
+SetRequiresRepublish sets RequiresRepublish field to given value.
+
+### HasRequiresRepublish
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) HasRequiresRepublish() bool`
+
+HasRequiresRepublish returns a boolean if a field has been set.
+
+### GetSeLinuxMount
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetSeLinuxMount() bool`
+
+GetSeLinuxMount returns the SeLinuxMount field if non-nil, zero value otherwise.
+
+### GetSeLinuxMountOk
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetSeLinuxMountOk() (*bool, bool)`
+
+GetSeLinuxMountOk returns a tuple with the SeLinuxMount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSeLinuxMount
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) SetSeLinuxMount(v bool)`
+
+SetSeLinuxMount sets SeLinuxMount field to given value.
+
+### HasSeLinuxMount
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) HasSeLinuxMount() bool`
+
+HasSeLinuxMount returns a boolean if a field has been set.
+
+### GetStorageCapacity
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetStorageCapacity() bool`
+
+GetStorageCapacity returns the StorageCapacity field if non-nil, zero value otherwise.
+
+### GetStorageCapacityOk
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetStorageCapacityOk() (*bool, bool)`
+
+GetStorageCapacityOk returns a tuple with the StorageCapacity field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStorageCapacity
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) SetStorageCapacity(v bool)`
+
+SetStorageCapacity sets StorageCapacity field to given value.
+
+### HasStorageCapacity
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) HasStorageCapacity() bool`
+
+HasStorageCapacity returns a boolean if a field has been set.
+
+### GetTokenRequests
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetTokenRequests() []IoK8sApiStorageV1TokenRequest`
+
+GetTokenRequests returns the TokenRequests field if non-nil, zero value otherwise.
+
+### GetTokenRequestsOk
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetTokenRequestsOk() (*[]IoK8sApiStorageV1TokenRequest, bool)`
+
+GetTokenRequestsOk returns a tuple with the TokenRequests field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTokenRequests
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) SetTokenRequests(v []IoK8sApiStorageV1TokenRequest)`
+
+SetTokenRequests sets TokenRequests field to given value.
+
+### HasTokenRequests
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) HasTokenRequests() bool`
+
+HasTokenRequests returns a boolean if a field has been set.
+
+### GetVolumeLifecycleModes
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetVolumeLifecycleModes() []string`
+
+GetVolumeLifecycleModes returns the VolumeLifecycleModes field if non-nil, zero value otherwise.
+
+### GetVolumeLifecycleModesOk
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) GetVolumeLifecycleModesOk() (*[]string, bool)`
+
+GetVolumeLifecycleModesOk returns a tuple with the VolumeLifecycleModes field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetVolumeLifecycleModes
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) SetVolumeLifecycleModes(v []string)`
+
+SetVolumeLifecycleModes sets VolumeLifecycleModes field to given value.
+
+### HasVolumeLifecycleModes
+
+`func (o *IoK8sApiStorageV1CSIDriverSpec) HasVolumeLifecycleModes() bool`
+
+HasVolumeLifecycleModes returns a boolean if a field has been set.
+
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

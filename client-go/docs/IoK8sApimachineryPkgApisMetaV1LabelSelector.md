@@ -1,0 +1,82 @@
+# IoK8sApimachineryPkgApisMetaV1LabelSelector
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**MatchExpressions** | Pointer to [**[]IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirement**](IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirement.md) | matchExpressions is a list of label selector requirements. The requirements are ANDed. | [optional] 
+**MatchLabels** | Pointer to **map[string]string** | matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \&quot;key\&quot;, the operator is \&quot;In\&quot;, and the values array contains only \&quot;value\&quot;. The requirements are ANDed. | [optional] 
+
+## Methods
+
+### NewIoK8sApimachineryPkgApisMetaV1LabelSelector
+
+`func NewIoK8sApimachineryPkgApisMetaV1LabelSelector() *IoK8sApimachineryPkgApisMetaV1LabelSelector`
+
+NewIoK8sApimachineryPkgApisMetaV1LabelSelector instantiates a new IoK8sApimachineryPkgApisMetaV1LabelSelector object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewIoK8sApimachineryPkgApisMetaV1LabelSelectorWithDefaults
+
+`func NewIoK8sApimachineryPkgApisMetaV1LabelSelectorWithDefaults() *IoK8sApimachineryPkgApisMetaV1LabelSelector`
+
+NewIoK8sApimachineryPkgApisMetaV1LabelSelectorWithDefaults instantiates a new IoK8sApimachineryPkgApisMetaV1LabelSelector object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+### GetMatchExpressions
+
+`func (o *IoK8sApimachineryPkgApisMetaV1LabelSelector) GetMatchExpressions() []IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirement`
+
+GetMatchExpressions returns the MatchExpressions field if non-nil, zero value otherwise.
+
+### GetMatchExpressionsOk
+
+`func (o *IoK8sApimachineryPkgApisMetaV1LabelSelector) GetMatchExpressionsOk() (*[]IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirement, bool)`
+
+GetMatchExpressionsOk returns a tuple with the MatchExpressions field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMatchExpressions
+
+`func (o *IoK8sApimachineryPkgApisMetaV1LabelSelector) SetMatchExpressions(v []IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirement)`
+
+SetMatchExpressions sets MatchExpressions field to given value.
+
+### HasMatchExpressions
+
+`func (o *IoK8sApimachineryPkgApisMetaV1LabelSelector) HasMatchExpressions() bool`
+
+HasMatchExpressions returns a boolean if a field has been set.
+
+### GetMatchLabels
+
+`func (o *IoK8sApimachineryPkgApisMetaV1LabelSelector) GetMatchLabels() map[string]string`
+
+GetMatchLabels returns the MatchLabels field if non-nil, zero value otherwise.
+
+### GetMatchLabelsOk
+
+`func (o *IoK8sApimachineryPkgApisMetaV1LabelSelector) GetMatchLabelsOk() (*map[string]string, bool)`
+
+GetMatchLabelsOk returns a tuple with the MatchLabels field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMatchLabels
+
+`func (o *IoK8sApimachineryPkgApisMetaV1LabelSelector) SetMatchLabels(v map[string]string)`
+
+SetMatchLabels sets MatchLabels field to given value.
+
+### HasMatchLabels
+
+`func (o *IoK8sApimachineryPkgApisMetaV1LabelSelector) HasMatchLabels() bool`
+
+HasMatchLabels returns a boolean if a field has been set.
+
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
