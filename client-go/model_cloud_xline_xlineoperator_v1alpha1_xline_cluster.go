@@ -12,6 +12,7 @@ package openapi
 
 import (
 	"encoding/json"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // checks if the CloudXlineXlineoperatorV1alpha1XlineCluster type satisfies the MappedNullable interface at compile time
@@ -23,7 +24,7 @@ type CloudXlineXlineoperatorV1alpha1XlineCluster struct {
 	ApiVersion *string `json:"apiVersion,omitempty"`
 	// Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
 	Kind *string `json:"kind,omitempty"`
-	Metadata *IoK8sApimachineryPkgApisMetaV1ObjectMeta `json:"metadata,omitempty"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec CloudXlineXlineoperatorV1alpha1XlineClusterSpec `json:"spec"`
 	// Xline cluster status
 	Status map[string]interface{} `json:"status,omitempty"`
@@ -111,38 +112,6 @@ func (o *CloudXlineXlineoperatorV1alpha1XlineCluster) SetKind(v string) {
 	o.Kind = &v
 }
 
-// GetMetadata returns the Metadata field value if set, zero value otherwise.
-func (o *CloudXlineXlineoperatorV1alpha1XlineCluster) GetMetadata() IoK8sApimachineryPkgApisMetaV1ObjectMeta {
-	if o == nil || IsNil(o.Metadata) {
-		var ret IoK8sApimachineryPkgApisMetaV1ObjectMeta
-		return ret
-	}
-	return *o.Metadata
-}
-
-// GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *CloudXlineXlineoperatorV1alpha1XlineCluster) GetMetadataOk() (*IoK8sApimachineryPkgApisMetaV1ObjectMeta, bool) {
-	if o == nil || IsNil(o.Metadata) {
-		return nil, false
-	}
-	return o.Metadata, true
-}
-
-// HasMetadata returns a boolean if a field has been set.
-func (o *CloudXlineXlineoperatorV1alpha1XlineCluster) HasMetadata() bool {
-	if o != nil && !IsNil(o.Metadata) {
-		return true
-	}
-
-	return false
-}
-
-// SetMetadata gets a reference to the given IoK8sApimachineryPkgApisMetaV1ObjectMeta and assigns it to the Metadata field.
-func (o *CloudXlineXlineoperatorV1alpha1XlineCluster) SetMetadata(v IoK8sApimachineryPkgApisMetaV1ObjectMeta) {
-	o.Metadata = &v
-}
-
 // GetSpec returns the Spec field value
 func (o *CloudXlineXlineoperatorV1alpha1XlineCluster) GetSpec() CloudXlineXlineoperatorV1alpha1XlineClusterSpec {
 	if o == nil {
@@ -215,9 +184,9 @@ func (o CloudXlineXlineoperatorV1alpha1XlineCluster) ToMap() (map[string]interfa
 	if !IsNil(o.Kind) {
 		toSerialize["kind"] = o.Kind
 	}
-	if !IsNil(o.Metadata) {
-		toSerialize["metadata"] = o.Metadata
-	}
+	// if !IsNil(o.Metadata) {
+	// 	toSerialize["metadata"] = o.Metadata
+	// }
 	toSerialize["spec"] = o.Spec
 	if !IsNil(o.Status) {
 		toSerialize["status"] = o.Status
