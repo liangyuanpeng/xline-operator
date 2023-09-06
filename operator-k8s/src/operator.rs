@@ -48,7 +48,8 @@ impl Operator {
     /// Return `Err` when run failed
     #[inline]
     pub async fn run(&self) -> Result<()> {
-        let kubeconf = kube::config::Kubeconfig::read_from("");
+        // kube::Client::try_default()
+        let kubeconf = kube::config::Kubeconfig::read_from(self.config.kube_config)?;
         let opts: &kube::config::KubeConfigOptions = &kube::config::KubeConfigOptions::default();
         let kconfig = kube::Config::from_custom_kubeconfig(kubeconf, opts).await?;
         let kube_client = kube::Client::try_from(kconfig)?;

@@ -23,6 +23,9 @@ pub struct Config {
     /// unreachable counter threshold
     #[arg(long, default_value = "4")]
     pub unreachable_thresh: usize,
+     /// path of kubeconfig
+     #[arg(long, default_value = "")]
+     pub kube_config: String,
 }
 
 /// The namespace to work, `ClusterWide` means work with all namespaces
