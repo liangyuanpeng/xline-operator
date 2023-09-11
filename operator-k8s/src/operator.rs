@@ -41,6 +41,17 @@ impl Operator {
         Self { config }
     }
 
+    #[inline]
+    pub async fn getKubeconfig(&self) -> Result<kube::Client> {
+        let path = if self.config.kube_config.trim().is_empty() {
+            //...
+            kube::config::Kubeconfig::read_from(&self.config.kube_config)
+          } else {
+            kube::Client::try_default()
+          };
+          path
+    }
+
     /// Run operator
     ///
     /// # Errors
@@ -48,7 +59,11 @@ impl Operator {
     /// Return `Err` when run failed
     #[inline]
     pub async fn run(&self) -> Result<()> {
-        let kube_client: Client = Client::try_default().await?;
+        // kube::Client::try_default()
+       let kubeconf: kube::config::Kubeconfig = kube::config::Kubeconfig::read_from(&self.config.kube_config)?;
+        let opts: &kube::config::KubeConfigOptions = &kube::config::KubeConfigOptions::default();
+        let kconfig = kube::Config::from_custom_kubeconfig(kubeconf, opts).await?;
+        let kube_client = kube::Client::try_from(kconfig)?;
         self.prepare_crd(&kube_client).await?;
         let (cluster_api, pod_api): (Api<Cluster>, Api<Pod>) = match self.config.namespace {
             Namespace::Single(ref namespace) => (
