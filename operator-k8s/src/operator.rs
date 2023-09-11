@@ -41,6 +41,17 @@ impl Operator {
         Self { config }
     }
 
+    #[inline]
+    pub async fn getKubeconfig(&self) -> Result<kube::Client> {
+        let path = if self.config.kube_config.trim().is_empty() {
+            //...
+            kube::config::Kubeconfig::read_from(&self.config.kube_config)
+          } else {
+            kube::Client::try_default()
+          };
+          path
+    }
+
     /// Run operator
     ///
     /// # Errors
@@ -49,7 +60,7 @@ impl Operator {
     #[inline]
     pub async fn run(&self) -> Result<()> {
         // kube::Client::try_default()
-        let kubeconf = kube::config::Kubeconfig::read_from(self.config.kube_config)?;
+       let kubeconf: kube::config::Kubeconfig = kube::config::Kubeconfig::read_from(&self.config.kube_config)?;
         let opts: &kube::config::KubeConfigOptions = &kube::config::KubeConfigOptions::default();
         let kconfig = kube::Config::from_custom_kubeconfig(kubeconf, opts).await?;
         let kube_client = kube::Client::try_from(kconfig)?;
